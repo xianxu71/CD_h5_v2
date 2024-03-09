@@ -8,14 +8,12 @@ class main_class:
     This is the main class where most parameters and data store
     '''
 
-    def __init__(self, nc, nv, nc_for_r, nv_for_r, nc_in_file, nv_in_file ,hovb, nxct, input_folder, W, eta , use_eqp, energy_shift, eps1_correction, use_xct):
+    def __init__(self, nc, nv, nc_in_file, nv_in_file ,hovb, nxct, input_folder, W, eta , use_eqp, energy_shift, eps1_correction, use_xct, use_spin, use_orbital, hermitian_convert, polarization, molecule, plot_wavelength, cd_exp_unit,exp_unit_converter):
         """
         intialize main_class from input.py and all the input files
         """
         self.nc = nc #number of conduction bands in eigenvectors.h5
         self.nv = nv  #number of valence bands in eigenvectors.h5
-        self.nc_for_r = nc_for_r #number of conduction bands for <\psi|r|\psi>
-        self.nv_for_r = nv_for_r #number of valence bands for <\psi|r|\psi>
         self.hovb = hovb # index of the highest occupied band
         self.nxct = nxct # number of exciton states
         self.input_folder = input_folder #address of input folder
@@ -27,6 +25,14 @@ class main_class:
         self.nc_in_file = nc_in_file
         self.nv_in_file = nv_in_file
         self.use_xct = use_xct
+        self.use_spin = use_spin
+        self.use_orbital = use_orbital
+        self.hermitian_convert = hermitian_convert
+        self.polarization = polarization
+        self.molecule = molecule
+        self.plot_wavelength = plot_wavelength
+        self.cd_exp_unit = cd_exp_unit
+        self.exp_unit_converter = exp_unit_converter
 
         reader.reader(self)
         electromagnetic.electromagnetic(self)

@@ -10,8 +10,10 @@ class reader:
     def __init__(self, main_class):
         self.read_header(main_class)
         self.read_dipole(main_class)
-        #self.read_spin(main_class)
-        self.read_orbit(main_class)
+        if main_class.use_spin:
+            self.read_spin(main_class)
+        if main_class.use_orbital:
+            self.read_orbit(main_class)
         if main_class.use_xct:
             self.read_xct(main_class)
         if main_class.use_eqp:
@@ -20,15 +22,11 @@ class reader:
     def read_header(self, main_class):
         input_file = main_class.input_folder + 'wfn_header.h5'
         f = h5.File(input_file, 'r')
-
-
-        #dft_energy
         main_class.energy_dft = f['mf_header/kpoints/el'][0, :, main_class.hovb - main_class.nv: main_class.hovb + main_class.nc]
         main_class.volume = f['mf_header/crystal/celvol'][()]
         main_class.rk = f['mf_header/kpoints/rk'][()]
         main_class.nk = f['mf_header/kpoints/nrk'][()]
         main_class.spinor = f['mf_header/kpoints/nspinor'][()]
-
         f.close()
         print('finish reading wfn_header.h5')
         return 0
@@ -41,14 +39,6 @@ class reader:
                                  main_class.nv_in_file - main_class.nv:main_class.nv_in_file + main_class.nc, :]
 
         f.close()
-
-        # input_file2 = main_class.input_folder + 'dipole_matrix_bgw_camphor.h5'
-        # f2 = h5.File(input_file2, 'r')
-        # BGW_dipole = f2['dipole'][:, main_class.nv_in_file - main_class.nv:main_class.nv_in_file + main_class.nc,
-        #                          main_class.nv_in_file - main_class.nv:main_class.nv_in_file + main_class.nc, :]
-        #
-        # f2.close()
-
         print('finish reading dipole_matrix.h5')
         return 0
 
